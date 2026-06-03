@@ -31,8 +31,7 @@ app.use(cors({
   credentials: true,
 }));
 
-// Ensure preflight requests are handled for all routes
-app.options('*', cors({ origin: true, credentials: true }));
+// Note: preflight OPTIONS requests are handled by the fallback middleware below
 
 // Fallback middleware to set CORS headers (covers cases where cors() might not run)
 app.use((req, res, next) => {
