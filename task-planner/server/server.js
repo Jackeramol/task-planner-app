@@ -19,17 +19,20 @@ const allowedOrigins = [
   'https://task-planner-app-one.vercel.app',
 ].filter(Boolean);
 
+// Allow requests from allowed origins and echo the request origin in responses
 app.use(cors({
   origin: function (origin, callback) {
+    // allow non-browser requests like Postman (no origin)
     if (!origin) return callback(null, true);
     if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
-    return callback(new Error('Not allowed by CORS'));
+    // if origin is not in allowlist, fall back to echoing the origin (permissive)
+    return callback(null, true);
   },
   credentials: true,
 }));
 
 // Ensure preflight requests are handled for all routes
-app.options('*', cors({ origin: allowedOrigins, credentials: true }));
+app.options('*', cors({ origin: true, credentials: true }));
 
 // Fallback middleware to set CORS headers (covers cases where cors() might not run)
 app.use((req, res, next) => {
