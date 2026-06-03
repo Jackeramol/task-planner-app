@@ -12,16 +12,37 @@ const uploadRoutes = require('./routes/upload');
 
 const app = express();
 
-// CORS configuration to allow Vercel client
+// Robust CORS handling: allowlisted origins and preflight handling
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'https://task-planner-app-one.vercel.app',
+].filter(Boolean);
+
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:5173',
-    'https://task-planner-app-one.vercel.app',
-    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
-  ].filter(Boolean),
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) return callback(null, true);
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
 }));
+
+// Ensure preflight requests are handled for all routes
+app.options('*', cors({ origin: allowedOrigins, credentials: true }));
+
+// Fallback middleware to set CORS headers (covers cases where cors() might not run)
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  }
+  if (req.method === 'OPTIONS') return res.sendStatus(200);
+  next();
+});
 
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
