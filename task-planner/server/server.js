@@ -12,7 +12,17 @@ const uploadRoutes = require('./routes/upload');
 
 const app = express();
 
-app.use(cors());
+// CORS configuration to allow Vercel client
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'https://task-planner-app-one.vercel.app',
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null,
+  ].filter(Boolean),
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
