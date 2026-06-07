@@ -12,6 +12,10 @@ const uploadRoutes = require('./routes/upload');
 
 const app = express();
 
+// Security middlewares
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+
 // Robust CORS handling: allowlisted origins and preflight handling
 const allowedOrigins = [
   'http://localhost:3000',
@@ -45,6 +49,17 @@ app.use((req, res, next) => {
   if (req.method === 'OPTIONS') return res.sendStatus(200);
   next();
 });
+// Apply security headers and rate limiting
+app.use(helmet());
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+app.use(limiter);
 
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
