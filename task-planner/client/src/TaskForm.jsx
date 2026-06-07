@@ -98,8 +98,9 @@ export default function TaskForm({ onTaskCreated, editingTask = null, onEditComp
   };
 
   return (
-    <div className="rounded-3xl border border-slate-700 bg-slate-900/80 p-6 mb-6">
-      <h2 className="text-xl font-semibold mb-4 text-white">{editingTask ? 'Edit Task' : 'Create New Task'}</h2>
+    <div className="rounded-3xl border border-slate-700 glass p-6 mb-6">
+      <h2 className="text-lg font-semibold mb-2 text-white">{editingTask ? 'Edit Task' : 'Create Task'}</h2>
+      <p className="text-sm text-slate-400 mb-4">Quickly add tasks and set reminders.</p>
       {error && <div className="mb-4 p-3 rounded-lg bg-red-900/30 text-red-400 text-sm">{error}</div>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -108,7 +109,7 @@ export default function TaskForm({ onTaskCreated, editingTask = null, onEditComp
           placeholder="Task title"
           value={formData.title}
           onChange={handleChange}
-          className="w-full px-4 py-3 rounded-2xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+          className="w-full px-4 py-3 rounded-2xl bg-transparent border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
           required
         />
         <textarea
@@ -117,7 +118,7 @@ export default function TaskForm({ onTaskCreated, editingTask = null, onEditComp
           value={formData.description}
           onChange={handleChange}
           rows="3"
-          className="w-full px-4 py-3 rounded-2xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+          className="w-full px-4 py-3 rounded-2xl bg-transparent border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
         />
 
         <div className="grid gap-3 md:grid-cols-3">
@@ -179,7 +180,7 @@ export default function TaskForm({ onTaskCreated, editingTask = null, onEditComp
         </div>
 
         <label className="block text-sm font-medium text-slate-300">
-          Upload task image (optional)
+          Upload image (optional)
           <input
             type="file"
             accept="image/*"
@@ -199,9 +200,9 @@ export default function TaskForm({ onTaskCreated, editingTask = null, onEditComp
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 rounded-2xl bg-sky-500 text-white font-semibold hover:bg-sky-400 disabled:opacity-50"
+          className="w-full py-3 rounded-2xl bg-gradient-to-r from-sky-500 to-cyan-400 text-white font-semibold hover:opacity-95 disabled:opacity-50"
         >
-          {loading ? 'Saving...' : editingTask ? 'Update Task' : 'Create Task'}
+          {loading ? 'Saving...' : editingTask ? 'Update' : 'Create'}
         </button>
       </form>
     </div>

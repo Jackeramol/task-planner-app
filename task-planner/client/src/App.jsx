@@ -147,54 +147,89 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 px-4 py-8 text-slate-100">
-      <div className="mx-auto max-w-5xl">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-8">
-          <div>
-            <h1 className="text-4xl font-semibold text-white">Task Planner</h1>
-            <p className="mt-1 text-slate-400">Welcome, {user?.name}!</p>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 to-slate-900 px-4 py-8 text-slate-100">
+      <div className="mx-auto max-w-6xl">
+        <header className="app-header rounded-3xl p-4 mb-6 glass flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="rounded-full bg-sky-500 w-12 h-12 flex items-center justify-center text-white text-xl font-bold">TP</div>
+            <div>
+              <h1 className="text-2xl font-semibold">Task Planner</h1>
+              <p className="text-sm text-slate-300">Welcome, {user?.name} — stay on top of your work</p>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex items-center gap-3">
             <button
               onClick={exportTasks}
-              className="rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-white hover:bg-sky-400 transition"
+              className="rounded-full bg-gradient-to-r from-sky-500 to-cyan-400 px-4 py-2 text-sm font-semibold text-white shadow-md hover:opacity-95 transition"
             >
-              Export Tasks
+              Export
             </button>
-            <label className="rounded-2xl bg-slate-800 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 cursor-pointer">
-              Import Excel
+            <label className="rounded-full bg-slate-800 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 cursor-pointer">
+              Import
               <input type="file" accept=".xlsx,.xls" onChange={handleImportFile} className="hidden" />
             </label>
             <button
               onClick={handleLogout}
-              className="rounded-2xl bg-red-600 px-5 py-3 text-sm font-semibold text-white hover:bg-red-500 transition"
+              className="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500 transition"
             >
               Logout
             </button>
           </div>
-        </div>
+        </header>
 
-        <TaskForm
-          onTaskCreated={() => {
-            fetchTasks();
-            setEditingTask(null);
-          }}
-          editingTask={editingTask}
-          onEditComplete={() => {
-            fetchTasks();
-            setEditingTask(null);
-          }}
-        />
+        <main className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <aside className="md:col-span-1">
+            <div className="sticky top-6">
+              <TaskForm
+                onTaskCreated={() => {
+                  fetchTasks();
+                  setEditingTask(null);
+                }}
+                editingTask={editingTask}
+                onEditComplete={() => {
+                  fetchTasks();
+                  setEditingTask(null);
+                }}
+              />
+            </div>
+          </aside>
 
-        {loadingTasks ? (
-          <div className="text-center text-slate-400">Loading tasks...</div>
-        ) : (
-          <TaskList
-            tasks={tasks}
-            onTaskDeleted={fetchTasks}
-            onTaskEdit={setEditingTask}
-          />
-        )}
+          <section className="md:col-span-2">
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 w-full">
+                <input
+                  type="search"
+                  placeholder="Search tasks by title or description..."
+                  onInput={(e) => {
+                    const q = e.target.value.toLowerCase();
+                    if (!q) return fetchTasks();
+                    setTasks((prev) => prev.filter(t => (t.title + ' ' + (t.description||'')).toLowerCase().includes(q)));
+                  }}
+                  className="flex-1 px-4 py-3 rounded-2xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-sky-500"
+                />
+                <select
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    if (v === 'all') return fetchTasks();
+                    setTasks((prev) => prev.filter(t => t.status === v));
+                  }}
+                  className="px-4 py-3 rounded-2xl bg-slate-800 border border-slate-700 text-white focus:outline-none"
+                >
+                  <option value="all">All</option>
+                  <option value="pending">Pending</option>
+                  <option value="in-progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+            </div>
+
+            {loadingTasks ? (
+              <div className="text-center text-slate-400">Loading tasks...</div>
+            ) : (
+              <TaskList tasks={tasks} onTaskDeleted={fetchTasks} onTaskEdit={setEditingTask} />
+            )}
+          </section>
+        </main>
       </div>
     </div>
   );
