@@ -158,26 +158,16 @@ function App() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <button
-              onClick={exportTasks}
-              className="rounded-full bg-gradient-to-r from-sky-500 to-cyan-400 px-4 py-2 text-sm font-semibold text-white shadow-md hover:opacity-95 transition"
-            >
-              Export
-            </button>
-            <label className="rounded-full bg-slate-800 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 cursor-pointer">
+            <button onClick={exportTasks} className="btn-primary">Export</button>
+            <label className="btn-secondary cursor-pointer">
               Import
               <input type="file" accept=".xlsx,.xls" onChange={handleImportFile} className="hidden" />
             </label>
-            <button
-              onClick={handleLogout}
-              className="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500 transition"
-            >
-              Logout
-            </button>
+            <button onClick={handleLogout} className="btn-danger">Logout</button>
           </div>
         </header>
 
-        <main className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <main className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <aside className="md:col-span-1">
             <div className="sticky top-6">
               <TaskForm
@@ -194,7 +184,7 @@ function App() {
             </div>
           </aside>
 
-          <section className="md:col-span-2">
+          <section className="md:col-span-1">
             <div className="mb-4 flex items-center justify-between gap-4">
               <div className="flex items-center gap-3 w-full">
                 <input

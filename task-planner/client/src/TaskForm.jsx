@@ -185,7 +185,7 @@ export default function TaskForm({ onTaskCreated, editingTask = null, onEditComp
             type="file"
             accept="image/*"
             onChange={handleFileChange}
-            className="mt-2 w-full text-sm text-slate-200 file:mr-4 file:rounded-full file:border-0 file:bg-slate-700 file:px-4 file:text-slate-100"
+            className="mt-2 w-full text-sm text-slate-200 file:mr-4 file:rounded-full file:border-0 file:bg-slate-700 file:px-4 file:text-slate-100 hover:opacity-95"
           />
         </label>
 
@@ -200,7 +200,7 @@ export default function TaskForm({ onTaskCreated, editingTask = null, onEditComp
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 rounded-2xl bg-gradient-to-r from-sky-500 to-cyan-400 text-white font-semibold hover:opacity-95 disabled:opacity-50"
+          className="w-full py-3 btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? 'Saving...' : editingTask ? 'Update' : 'Create'}
         </button>

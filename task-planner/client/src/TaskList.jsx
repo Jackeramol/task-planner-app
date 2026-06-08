@@ -39,7 +39,7 @@ export default function TaskList({ tasks, onTaskDeleted, onTaskEdit }) {
         </div>
       ) : (
         tasks.map((task) => (
-          <div key={task._id} className="group rounded-2xl border border-slate-700 glass p-6 shadow-sm hover:shadow-lg transition">
+          <div key={task._id} className="group rounded-2xl border border-slate-700 glass p-6 shadow-sm card-hover">
             <div className="flex gap-4 items-start">
               {task.imageUrl ? (
                 <img
@@ -75,8 +75,8 @@ export default function TaskList({ tasks, onTaskDeleted, onTaskEdit }) {
             </div>
 
             <div className="mt-4 flex gap-2 justify-end">
-              <button onClick={() => onTaskEdit?.(task)} className="rounded-full bg-sky-500 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-400 transition">Edit</button>
-              <button onClick={() => handleDelete(task._id)} className="rounded-full bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500 transition">Delete</button>
+              <button onClick={() => onTaskEdit?.(task)} className="btn-primary text-sm">Edit</button>
+              <button onClick={() => handleDelete(task._id)} className="btn-danger text-sm">Delete</button>
             </div>
           </div>
         ))
