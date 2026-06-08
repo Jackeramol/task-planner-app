@@ -156,27 +156,53 @@ export default function TaskForm({ onTaskCreated, editingTask = null, onEditComp
         </div>
 
         <div className="grid gap-3 md:grid-cols-3">
-          <input
-            type="date"
-            name="dueDate"
-            value={formData.dueDate}
-            onChange={handleChange}
-            className="px-4 py-3 rounded-2xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-sky-500"
-          />
-          <input
-            type="time"
-            name="reminderTime"
-            value={formData.reminderTime}
-            onChange={handleChange}
-            className="px-4 py-3 rounded-2xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-sky-500"
-          />
-          <input
-            type="date"
-            name="reminderDate"
-            value={formData.reminderDate}
-            onChange={handleChange}
-            className="px-4 py-3 rounded-2xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-sky-500"
-          />
+          <div>
+            <div className="field-info">
+              <label className="text-sm text-slate-300">Due date</label>
+              <span className="info-icon" title="The date the task is due">?</span>
+            </div>
+            <input
+              type="date"
+              name="dueDate"
+              value={formData.dueDate}
+              onChange={handleChange}
+              aria-label="Due date"
+              className="px-4 py-3 rounded-2xl bg-transparent border border-slate-700 text-white focus:outline-none focus:border-sky-500"
+            />
+            <span className="field-hint">When the task should be completed.</span>
+          </div>
+
+          <div>
+            <div className="field-info">
+              <label className="text-sm text-slate-300">Reminder time</label>
+              <span className="info-icon" title="Time of day to remind you">i</span>
+            </div>
+            <input
+              type="time"
+              name="reminderTime"
+              value={formData.reminderTime}
+              onChange={handleChange}
+              aria-label="Reminder time"
+              className="px-4 py-3 rounded-2xl bg-transparent border border-slate-700 text-white focus:outline-none focus:border-sky-500"
+            />
+            <span className="field-hint">Select time for the reminder.</span>
+          </div>
+
+          <div>
+            <div className="field-info">
+              <label className="text-sm text-slate-300">Reminder date</label>
+              <span className="info-icon" title="Date to trigger reminder; combine with time">i</span>
+            </div>
+            <input
+              type="date"
+              name="reminderDate"
+              value={formData.reminderDate}
+              onChange={handleChange}
+              aria-label="Reminder date"
+              className="px-4 py-3 rounded-2xl bg-transparent border border-slate-700 text-white focus:outline-none focus:border-sky-500"
+            />
+            <span className="field-hint">Date for the reminder (optional).</span>
+          </div>
         </div>
 
         <label className="block text-sm font-medium text-slate-300">
